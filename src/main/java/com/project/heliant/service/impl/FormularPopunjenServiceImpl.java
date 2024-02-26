@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,5 +62,11 @@ public class FormularPopunjenServiceImpl implements FormularPopunjenService {
 	@Override
 	public void obrisiFormularPopunjen(int id) {
 		formularPopunjenRepository.deleteById(id);
+	}
+
+	@Override
+	public int brojPopunjenihFormularaUdanu(LocalDateTime dan) {
+		List<FormularPopunjenEntity> formulari = formularPopunjenRepository.findByVremeKreiranjaBetween(dan.minusDays(1L), dan);
+		return formulari.size();
 	}
 }

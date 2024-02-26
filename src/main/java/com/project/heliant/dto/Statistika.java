@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -17,7 +17,7 @@ public class Statistika {
 
 	private int id;
 	@NotNull(message = "Datum je obavezno polje za statistiku")
-	private LocalDate datum;
+	private LocalDateTime datum;
 	private int brojPopunjenihFormulara;
 
 }
