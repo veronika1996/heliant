@@ -2,6 +2,7 @@ package com.project.heliant.controller;
 
 import com.project.heliant.dto.FormularPopunjen;
 import com.project.heliant.service.FormularPopunjenService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class FormularPopunjenController {
 	}
 
 	@PostMapping
-	public ResponseEntity<FormularPopunjen> kreirajFormularPopunjen(@RequestBody FormularPopunjen formularPopunjen) {
+	public ResponseEntity<FormularPopunjen> kreirajFormularPopunjen(@Valid @RequestBody FormularPopunjen formularPopunjen) {
 		FormularPopunjen kreiraniFormularPopunjen = formularPopunjenService.kreirajFormularPopunjen(formularPopunjen);
 		return ResponseEntity.ok().body(kreiraniFormularPopunjen);
 	}
@@ -41,8 +42,7 @@ public class FormularPopunjenController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<FormularPopunjen> azurirajFormularPopunjen(@PathVariable Integer id, @RequestBody
-	FormularPopunjen formularPopunjenDetails) {
+	public ResponseEntity<FormularPopunjen> azurirajFormularPopunjen(@PathVariable Integer id, @Valid @RequestBody FormularPopunjen formularPopunjenDetails) {
 		FormularPopunjen azuriraniFormularPopunjen = formularPopunjenService.azurirajFormularPopunjen(id, formularPopunjenDetails);
 		return ResponseEntity.ok().body(azuriraniFormularPopunjen);
 	}

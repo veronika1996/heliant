@@ -13,11 +13,7 @@ import lombok.Setter;
 public class PoljePopunjeno {
 
 	private int id;
-
-	private Polje polje;
-
 	private String vrednostTekst;
-
 	private Double vrednostBroj;
 
 }

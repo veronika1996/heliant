@@ -1,5 +1,7 @@
 package com.project.heliant.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,6 @@ import java.util.List;
 public class FormularPopunjen {
 
 	private int id;
-	private List<PoljePopunjeno> popunjenaPolja;
-
+	private List<@Valid PoljePopunjeno> popunjenaPolja;
 
 }

@@ -2,6 +2,7 @@ package com.project.heliant.controller;
 
 import com.project.heliant.dto.Formular;
 import com.project.heliant.service.FormularService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class FormularController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Formular> kreirajFormular(@RequestBody Formular formular) {
+	public ResponseEntity<Formular> kreirajFormular(@Valid @RequestBody Formular formular) {
 		Formular kreiraniFormular = formularService.kreirajFormular(formular);
 		return ResponseEntity.ok().body(kreiraniFormular);
 	}
@@ -41,7 +42,7 @@ public class FormularController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Formular> azurirajFormular(@PathVariable Integer id, @RequestBody Formular formularDetails) {
+	public ResponseEntity<Formular> azurirajFormular(@PathVariable Integer id, @Valid @RequestBody Formular formularDetails) {
 		Formular azuriraniFormular = formularService.azurirajFormular(id, formularDetails);
 		return ResponseEntity.ok().body(azuriraniFormular);
 	}

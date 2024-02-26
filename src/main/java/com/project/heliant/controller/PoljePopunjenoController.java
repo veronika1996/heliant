@@ -2,6 +2,7 @@ package com.project.heliant.controller;
 
 import com.project.heliant.dto.PoljePopunjeno;
 import com.project.heliant.service.PoljePopunjenoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class PoljePopunjenoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<PoljePopunjeno> kreirajPoljePopunjeno(@RequestBody PoljePopunjeno poljePopunjeno) {
+	public ResponseEntity<PoljePopunjeno> kreirajPoljePopunjeno(@Valid @RequestBody PoljePopunjeno poljePopunjeno) {
 		PoljePopunjeno kreiranoPoljePopunjeno = poljePopunjenoService.kreirajPoljePopunjeno(poljePopunjeno);
 		return ResponseEntity.ok().body(kreiranoPoljePopunjeno);
 	}
@@ -42,8 +43,7 @@ public class PoljePopunjenoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<PoljePopunjeno> azurirajPoljePopunjeno(@PathVariable Integer id, @RequestBody
-	PoljePopunjeno poljePopunjenoDetails) {
+	public ResponseEntity<PoljePopunjeno> azurirajPoljePopunjeno(@PathVariable Integer id, @Valid @RequestBody PoljePopunjeno poljePopunjenoDetails) {
 		PoljePopunjeno azuriranoPoljePopunjeno = poljePopunjenoService.azurirajPoljePopunjeno(id, poljePopunjenoDetails);
 		return ResponseEntity.ok().body(azuriranoPoljePopunjeno);
 	}

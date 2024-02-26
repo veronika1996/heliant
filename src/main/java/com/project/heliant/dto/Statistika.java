@@ -1,5 +1,6 @@
 package com.project.heliant.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,8 @@ import java.time.LocalDate;
 public class Statistika {
 
 	private int id;
-
+	@NotNull(message = "Datum je obavezno polje za statistiku")
 	private LocalDate datum;
-
 	private int brojPopunjenihFormulara;
 
 }

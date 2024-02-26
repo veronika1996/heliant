@@ -2,6 +2,7 @@ package com.project.heliant.controller;
 
 import com.project.heliant.dto.Polje;
 import com.project.heliant.service.PoljeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class PoljeController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Polje> kreirajPolje(@RequestBody Polje polje) {
+	public ResponseEntity<Polje> kreirajPolje(@Valid @RequestBody Polje polje) {
 		Polje kreiranoPolje = poljeService.kreirajPolje(polje);
 		return ResponseEntity.ok().body(kreiranoPolje);
 	}
@@ -44,7 +45,7 @@ public class PoljeController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Polje> azurirajPolje(@PathVariable Integer id, @RequestBody Polje poljeDetails) {
+	public ResponseEntity<Polje> azurirajPolje(@PathVariable Integer id, @Valid @RequestBody Polje poljeDetails) {
 		Polje azuriranoPolje = poljeService.azurirajPolje(id, poljeDetails);
 		return ResponseEntity.ok().body(azuriranoPolje);
 	}
