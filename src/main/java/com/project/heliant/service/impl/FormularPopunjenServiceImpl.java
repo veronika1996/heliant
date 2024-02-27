@@ -1,9 +1,14 @@
 package com.project.heliant.service.impl;
 
 import com.project.heliant.dto.FormularPopunjen;
+import com.project.heliant.dto.PoljePopunjeno;
+import com.project.heliant.entity.FormularEntity;
 import com.project.heliant.entity.FormularPopunjenEntity;
 import com.project.heliant.repository.FormularPopunjenRepository;
+import com.project.heliant.repository.FormularRepository;
+import com.project.heliant.repository.PoljePopunjenoRepository;
 import com.project.heliant.service.FormularPopunjenService;
+import com.project.heliant.service.PoljePopunjenoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +24,28 @@ public class FormularPopunjenServiceImpl implements FormularPopunjenService {
 	private final FormularPopunjenRepository formularPopunjenRepository;
 	private final ModelMapper modelMapper;
 
-	public FormularPopunjenServiceImpl(FormularPopunjenRepository formularPopunjenRepository, ModelMapper modelMapper) {
+	private final FormularRepository formularRepository;
+
+	private final PoljePopunjenoService poljePopunjenoService;
+
+	public FormularPopunjenServiceImpl(FormularPopunjenRepository formularPopunjenRepository, ModelMapper modelMapper, FormularRepository formularRepository, PoljePopunjenoService poljePopunjenoService) {
 		this.formularPopunjenRepository = formularPopunjenRepository;
 		this.modelMapper = modelMapper;
-	}
+		this.formularRepository = formularRepository;
+        this.poljePopunjenoService = poljePopunjenoService;
+    }
 
 	@Override
 	public FormularPopunjen kreirajFormularPopunjen(FormularPopunjen formularPopunjen) {
-		FormularPopunjenEntity formularPopunjenEntity = modelMapper.map(formularPopunjen, FormularPopunjenEntity.class);
-		return modelMapper.map(formularPopunjenRepository.save(formularPopunjenEntity), FormularPopunjen.class);
+		Optional<FormularEntity> formularEntity = formularRepository.findById(formularPopunjen.getId_formulara());
+		if(formularEntity.isPresent()) {
+			List<PoljePopunjeno> poljaPopunjena = formularPopunjen.getPopunjenaPolja().stream().map(poljePopunjenoService::kreirajPoljePopunjeno).toList();
+			FormularPopunjenEntity formularPopunjenEntity = modelMapper.map(formularPopunjen, FormularPopunjenEntity.class);
+			FormularPopunjen formular =  modelMapper.map(formularPopunjenRepository.save(formularPopunjenEntity), FormularPopunjen.class);
+			formular.setPopunjenaPolja(poljaPopunjena);
+			return formular;
+		}
+		throw new EntityNotFoundException("Formular sa datim id-em ne postoji stoga ne moze biti popunjen");
 	}
 
 	@Override

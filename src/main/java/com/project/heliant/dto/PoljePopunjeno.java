@@ -15,5 +15,5 @@ public class PoljePopunjeno {
 	private int id;
 	private String vrednostTekst;
 	private Double vrednostBroj;
-
+	private int id_polja;
 }

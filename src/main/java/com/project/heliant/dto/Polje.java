@@ -20,5 +20,6 @@ public class Polje {
 	private int prikazniRedosled;
 	@NotNull(message = "Tip je obavezno polje za polje")
 	private Tip tip;
+	private int id_formulara;
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,13 @@ public class CustomExceptionHandler {
                 .collect(Collectors.toList());
         Map<String, Object> errorBody = new HashMap<>();
         errorBody.put("message", errors);
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("message", ex.getMessage());
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
 }

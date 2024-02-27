@@ -2,8 +2,10 @@ package com.project.heliant.service.impl;
 
 import com.project.heliant.dto.Polje;
 import com.project.heliant.dto.PoljePopunjeno;
+import com.project.heliant.entity.FormularEntity;
 import com.project.heliant.entity.PoljeEntity;
 import com.project.heliant.entity.PoljePopunjenoEntity;
+import com.project.heliant.repository.FormularRepository;
 import com.project.heliant.repository.PoljeRepository;
 import com.project.heliant.service.PoljeService;
 import org.modelmapper.ModelMapper;
@@ -21,16 +23,23 @@ public class PoljeServiceImpl implements PoljeService {
 	private final PoljeRepository poljeRepository;
 	private final ModelMapper modelMapper;
 
+	private final FormularRepository formularRepository;
+
 	@Autowired
-	public PoljeServiceImpl(PoljeRepository poljeRepository, ModelMapper modelMapper) {
+	public PoljeServiceImpl(PoljeRepository poljeRepository, ModelMapper modelMapper, FormularRepository formularRepository) {
 		this.poljeRepository = poljeRepository;
 		this.modelMapper = modelMapper;
-	}
+        this.formularRepository = formularRepository;
+    }
 
 	@Override
 	public Polje kreirajPolje(Polje polje) {
-		PoljeEntity poljeEntity = modelMapper.map(polje, PoljeEntity.class);
-		return modelMapper.map(poljeRepository.save(poljeEntity), Polje.class);
+		Optional<FormularEntity> formularEntity = formularRepository.findById(polje.getId_formulara());
+		if(formularEntity.isPresent()) {
+			PoljeEntity poljeEntity = modelMapper.map(polje, PoljeEntity.class);
+			return modelMapper.map(poljeRepository.save(poljeEntity), Polje.class);
+		}
+		throw new EntityNotFoundException("Ne postoji dati formular stoga ne moze postojati ni polje tog formulara");
 	}
 
 	@Override

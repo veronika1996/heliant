@@ -16,7 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 public class FormularPopunjen {
 
-	private int id;
+
 	private List<@Valid PoljePopunjeno> popunjenaPolja;
+
+	private int id_formulara;
 
 }

@@ -33,6 +33,9 @@ public class PoljePopunjenoEntity {
 	@Column(name = "vrednost_broj")
 	private Double vrednostBroj;
 
+	@Column(name="id_polja")
+	private Integer id_polja;
+
 	@CreationTimestamp
 	@Column(name = "vreme_kreiranja")
 	private LocalDateTime vremeKreiranja;

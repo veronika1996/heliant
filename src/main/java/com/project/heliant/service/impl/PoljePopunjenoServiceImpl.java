@@ -3,8 +3,10 @@ package com.project.heliant.service.impl;
 import com.project.heliant.dto.Formular;
 import com.project.heliant.dto.PoljePopunjeno;
 import com.project.heliant.entity.FormularEntity;
+import com.project.heliant.entity.PoljeEntity;
 import com.project.heliant.entity.PoljePopunjenoEntity;
 import com.project.heliant.repository.PoljePopunjenoRepository;
+import com.project.heliant.repository.PoljeRepository;
 import com.project.heliant.service.PoljePopunjenoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -20,15 +22,23 @@ public class PoljePopunjenoServiceImpl implements PoljePopunjenoService {
 	private final PoljePopunjenoRepository poljePopunjenoRepository;
 	private final ModelMapper modelMapper;
 
-	public PoljePopunjenoServiceImpl(PoljePopunjenoRepository poljePopunjenoRepository, ModelMapper modelMapper) {
+	private final PoljeRepository poljeRepository;
+
+	public PoljePopunjenoServiceImpl(PoljePopunjenoRepository poljePopunjenoRepository, ModelMapper modelMapper, PoljeRepository poljeRepository) {
 		this.poljePopunjenoRepository = poljePopunjenoRepository;
 		this.modelMapper = modelMapper;
-	}
+        this.poljeRepository = poljeRepository;
+    }
 
 	@Override
 	public PoljePopunjeno kreirajPoljePopunjeno(PoljePopunjeno poljePopunjeno) {
-		PoljePopunjenoEntity poljePopunjenoEntity = modelMapper.map(poljePopunjeno, PoljePopunjenoEntity.class);
-		return modelMapper.map(poljePopunjenoRepository.save(poljePopunjenoEntity), PoljePopunjeno.class);
+		Optional<PoljeEntity> poljeEntity = poljeRepository.findById(poljePopunjeno.getId_polja());
+		if(poljeEntity.isPresent()) {
+			PoljePopunjenoEntity poljePopunjenoEntity = modelMapper.map(poljePopunjeno, PoljePopunjenoEntity.class);
+			poljePopunjenoEntity.setId_polja(poljePopunjeno.getId_polja());
+			return modelMapper.map(poljePopunjenoRepository.save(poljePopunjenoEntity), PoljePopunjeno.class);
+		}
+		throw new EntityNotFoundException("Polje sa datim id-em ne postoji stoga ne moze biti popunjeno");
 	}
 
 	@Override
