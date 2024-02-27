@@ -5,6 +5,9 @@ import com.project.heliant.entity.FormularEntity;
 import com.project.heliant.repository.FormularRepository;
 import com.project.heliant.service.FormularService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -34,6 +37,13 @@ public class FormularServiceImpl implements FormularService {
 		return formularRepository.findAll().stream().map(formularEntity -> modelMapper.map(formularEntity, Formular.class)).collect(
 				Collectors.toList());
 	}
+
+	@Override
+	public Page<Formular> dobaviSveFormulareSaPaginacijom(Pageable pageable) {
+		Page<FormularEntity> page = formularRepository.findAll(pageable);
+		return page.map(formularEntity -> modelMapper.map(formularEntity, Formular.class));
+	}
+
 	@Override
 	public Formular dobaviFormular(int id) {
 		Optional<FormularEntity> formularEntity = formularRepository.findById(id);

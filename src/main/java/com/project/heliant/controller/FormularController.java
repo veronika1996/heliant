@@ -3,6 +3,8 @@ package com.project.heliant.controller;
 import com.project.heliant.dto.Formular;
 import com.project.heliant.service.FormularService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +38,8 @@ public class FormularController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Formular>> dobaviSveFormulare() {
-		List<Formular> formulari = formularService.dobaviSveFormulare();
+	public ResponseEntity<Page<Formular>> dobaviSveFormulareSaPaginacijom(Pageable pageable) {
+		Page<Formular> formulari = formularService.dobaviSveFormulareSaPaginacijom(pageable);
 		return ResponseEntity.ok().body(formulari);
 	}
 
