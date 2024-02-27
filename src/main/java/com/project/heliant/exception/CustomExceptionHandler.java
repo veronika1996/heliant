@@ -1,6 +1,7 @@
 package com.project.heliant.exception;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -34,6 +35,13 @@ public class CustomExceptionHandler {
     public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
         Map<String, Object> errorBody = new HashMap<>();
         errorBody.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> handleKorisnikVecRegistrovan(DataIntegrityViolationException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("message", "Korisnik je vec registrovan!");
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
 }
